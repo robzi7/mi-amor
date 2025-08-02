@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Constellation of Us ✨ Mi Amor</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⭐</text></svg>">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;600&display=swap');
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        font-family: 'Poppins', sans-serif;
+        overflow: hidden;
+        height: 100vh;
+        background: linear-gradient(135deg, #0a0a2a 0%, #1a1a4a 50%, #2a1a4a 100%);
+        color: white;
+        cursor: none;
+    }
+    
+    .custom-cursor {
+        position: fixed;
+        width: 20px;
+        height: 20px;
+        background: radial-gradient(circle, #ffd700 0%, #ffb347 100%);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 10000;
+        box-shadow: 0 0 20px #ffd700, 0 0 40px #ffd700;
+        transform: translate(-50%, -50%);
+        transition: all 0.1s ease;
+    }
+    
+    .game-container {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+    }
+    
+    .background-layer {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #0a0a2a 0%, #1a1a4a 30%, #2a1a4a 70%, #3a2a5a 100%);
+        animation: backgroundShift 20s ease-in-out infinite;
+    }
+    
+    @keyframes backgroundShift {
+        0%, 100% { background: linear-gradient(135deg, #0a0a2a 0%, #1a1a4a 30%, #2a1a4a 70%, #3a2a5a 100%); }
+        50% { background: linear-gradient(135deg, #1a0a4a 0%, #2a1a5a 30%, #3a2a6a 70%, #4a3a7a 100%); }
+    }
+    
+    .star-field {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+    
+    .bg-star {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background: white;
+        border-radius: 50%;
+        animation: twinkle 3s ease-in-out infinite;
+    }
+    
+    @keyframes twinkle {
+        0%, 100% { opacity: 0.3; transform: scale(1); }
+        50% { opacity: 1; transform: scale(1.5); }
+    }
+    
+    .shooting-star {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background: linear-gradient(45deg, transparent, #ffd700, transparent);
+        animation: shoot 8s linear infinite;
+    }
+    
+    @keyframes shoot {
+        0% { transform: translateX(-100px) translateY(100px); opacity: 0; }
+        10% { opacity: 1; }
+        90% { opacity: 1; }
+        100% { transform: translateX(100vw) translateY(-100px); opacity: 0; }
+    }
+    
+    .aurora {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 40%;
+        background: linear-gradient(180deg, 
+            rgba(0, 255, 150, 0.1) 0%,
+            rgba(50, 200, 255, 0.08) 30%,
+            rgba(150, 100, 255, 0.05) 60%,
+            transparent 100%);
+        animation: auroraFlow 15s ease-in-out infinite;
+    }
+    
+    @keyframes auroraFlow {
+        0%, 100% { opacity: 0.3; transform: skewX(-5deg); }
+        50% { opacity: 0.6; transform: skewX(5deg); }
+    }
+    
+    .floating-particles {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+    }
+    
+    .particle {
+        position: absolute;
+        width: 3px;
+        height: 3px;
+        background: radial-gradient(circle, #ffd700, transparent);
+        border-radius: 50%;
+        animation: float 10s linear infinite;
+    }
+    
+    @keyframes float {
+        0% { transform: translateY(100vh) translateX(0) rotate(0deg); opacity: 0; }
+        10% { opacity: 1; }
+        90% { opacity: 1; }
+        100% { transform: translateY(-100px) translateX(50px) rotate(360deg); opacity: 0; }
+    }
+    
+    .screen {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 100;
+    }
+    
+    .screen.active {
+        opacity: 1;
+        z-index: 200;
+    }
+    
+    .intro-title {
+        font-family: 'Dancing Script', cursive;
+        font-size: clamp(2.5rem, 8vw, 5rem);
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 2rem;
+        background: linear-gradient(45deg, #ffd700, #ff6b9d, #00d4ff, #ffd700);
+        background-size: 300% 300%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: gradientShift 4s ease-in-out infinite, textGlow 2s ease-in-out infinite;
+        text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+    }
+    
+    @keyframes gradientShift {
+        0%, 100% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+    }
+    
+    @keyframes textGlow {
+        0%, 100% { text-shadow: 0 0 30px rgba(255, 215, 0, 0.5); }
+        50% { text-shadow: 0 0 50px rgba(255, 215, 0, 0.8), 0 0 80px rgba(255, 107, 157, 0.4); }
+    }
+    
+    .romantic-text {
+        font-size: clamp(1rem, 4vw, 1.5rem);
+        text-align: center;
+        margin: 1rem 0;
+        padding: 0 2rem;
+        line-height: 1.6;
+        opacity: 0;
+        animation: fadeInUp 2s ease-out forwards;
+    }
+    
+    @keyframes fadeInUp {
+        0% { opacity: 0; transform: translateY(30px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
+    
+    .cta-button {
+        background: linear-gradient(45deg, #ff6b9d, #ffd700, #00d4ff);
+        background-size: 300% 300%;
+        border: none;
+        padding: 1rem 3rem;
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: white;
+        border-radius: 50px;
+        cursor: pointer;
+        margin-top: 2rem;
+        transition: all 0.3s ease;
+        animation: buttonPulse 3s ease-in-out infinite, gradientShift 4s ease-in-out infinite;
+        box-shadow: 0 10px 30px rgba(255, 107, 157, 0.3);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    
+    .cta-button:hover {
+        transform: translateY(-5px) scale(1.05);
+        box-shadow: 0 20px 40px rgba(255, 107, 157, 0.5);
+    }
+    
+    @keyframes buttonPulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+    }
+    
+    .constellation-canvas {
+        position: relative;
+        width: 90vw;
+        height: 80vh;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .star-position {
+        position: absolute;
+        width: 60px;
+        height: 60px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        border: 2px dashed rgba(255, 215, 0, 0.3);
+        transition: all 0.3s ease;
+        animation: positionPulse 2s ease-in-out infinite;
+    }
+    
+    .star-position:hover {
+        border-color: rgba(255, 215, 0, 0.8);
+        background: radial-gradient(circle, rgba(255, 215, 0, 0.1), transparent);
+        transform: scale(1.1);
+    }
+    
+    @keyframes positionPulse {
+        0%, 100% { border-color: rgba(255, 215, 0, 0.3); }
+        50% { border-color: rgba(255, 215, 0, 0.6); }
+    }
+    
+    .placed-star {
+        position: absolute;
+        font-size: 2.5rem;
+        animation: starBirth 1s ease-out, starFloat 4s ease-in-out infinite;
+        filter: drop-shadow(0 0 10px #ffd700) drop-shadow(0 0 20px #ffd700);
+        z-index: 10;
+    }
+    
+    @keyframes starBirth {
+        0% { transform: scale(0) rotate(0deg); opacity: 0; }
+        50% { transform: scale(1.5) rotate(180deg); opacity: 0.8; }
+        100% { transform: scale(1) rotate(360deg); opacity: 1; }
+    }
+    
+    @keyframes starFloat {
+        0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+        25% { transform: translateY(-10px) rotate(90deg) scale(1.1); }
+        50% { transform: translateY(0) rotate(180deg) scale(1); }
+        75% { transform: translateY(-5px) rotate(270deg) scale(1.05); }
+    }
+    
+    .constellation-line {
+        position: absolute;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #ffd700, #00d4ff, transparent);
+        transform-origin: left center;
+        opacity: 0;
+        animation: lineGrow 2s ease-out forwards;
+        z-index: 5;
+    }
+    
+    @keyframes lineGrow {
+        0% { width: 0; opacity: 0; }
+        100% { width: var(--line-length); opacity: 0.8; }
+    }
+    
+    .memory-popup {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0);
+        background: linear-gradient(135deg, rgba(26, 26, 74, 0.95), rgba(42, 26, 74, 0.95));
+        backdrop-filter: blur(20px);
+        border: 2px solid rgba(255, 215, 0, 0.3);
+        border-radius: 20px;
+        padding: 2rem;
+        max-width: 90vw;
+        max-height: 80vh;
+        overflow-y: auto;
+        z-index: 1000;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    
+    .memory-popup.show {
+        transform: translate(-50%, -50%) scale(1);
+    }
+    
+    .memory-emoji {
+        font-size: 4rem;
+        text-align: center;
+        margin-bottom: 1rem;
+        animation: emojiDance 2s ease-in-out infinite;
+    }
+    
+    @keyframes emojiDance {
+        0%, 100% { transform: rotate(-5deg) scale(1); }
+        50% { transform: rotate(5deg) scale(1.1); }
+    }
+    
+    .memory-title {
+        font-family: 'Dancing Script', cursive;
+        font-size: 2.5rem;
+        text-align: center;
+        margin-bottom: 1rem;
+        color: #ffd700;
+    }
+    
+    .memory-description {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    
+    .close-popup {
+        background: linear-gradient(45deg, #ff6b9d, #ffd700);
+        border: none;
+        padding: 0.8rem 2rem;
+        border-radius: 25px;
+        color: white;
+        font-weight: 600;
+        cursor: pointer;
+        display: block;
+        margin: 0 auto;
+        transition: all 0.3s ease;
+    }
+    
+    .close-popup:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(255, 107, 157, 0.3);
+    }
+    
+    .progress-indicator {
+        position: fixed;
+        top: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 1rem;
+        z-index: 500;
+    }
+    
+    .progress-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.3);
+        transition: all 0.3s ease;
+    }
+    
+    .progress-dot.completed {
+        background: linear-gradient(45deg, #ffd700, #ff6b9d);
+        box-shadow: 0 0 15px #ffd700;
+        animation: completedPulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes completedPulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.2); }
+    }
+    
+    .finale-fireworks {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 2000;
+    }
+    
+    .firework {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        animation: explode 2s ease-out forwards;
+    }
+    
+    @keyframes explode {
+        0% { transform: scale(0); opacity: 1; }
+        50% { transform: scale(20); opacity: 0.8; }
+        100% { transform: scale(40); opacity: 0; }
+    }
+    
+    .love-message {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-family: 'Dancing Script', cursive;
+        font-size: clamp(1.5rem, 6vw, 3rem);
+        text-align: center;
+        z-index: 3000;
+        color: #ffd700;
+        text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+    }
+    
+    .heart-rain {
+        position: fixed;
+        top: -50px;
+        animation: heartFall 3s linear infinite;
+        font-size: 2rem;
+        z-index: 1500;
+        pointer-events: none;
+    }
+    
+    @keyframes heartFall {
+        0% { transform: translateY(-50px) rotate(0deg); opacity: 1; }
+        100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+    
+    .spotify-widget {
+        position: fixed;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(26, 26, 74, 0.9);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        padding: 1rem;
+        border: 1px solid rgba(255, 215, 0, 0.3);
+        z-index: 400;
+    }
+    
+    .hidden-message {
+        position: fixed;
+        top: 20%;
+        right: 2rem;
+        background: rgba(255, 107, 157, 0.9);
+        padding: 0.5rem 1rem;
+        border-radius: 10px;
+        font-size: 0.9rem;
+        opacity: 0;
+        animation: hiddenMessageAppear 5s ease-in-out;
+        z-index: 600;
+    }
+    
+    @keyframes hiddenMessageAppear {
+        0%, 80% { opacity: 0; transform: translateX(100px); }
+        85%, 95% { opacity: 1; transform: translateX(0); }
+        100% { opacity: 0; transform: translateX(100px); }
+    }
+    
+    @media (max-width: 768px) {
+        .constellation-canvas {
+            width: 95vw;
+            height: 70vh;
+        }
+        
+        .star-position {
+            width: 50px;
+            height: 50px;
+        }
+        
+        .placed-star {
+            font-size: 2rem;
+        }
+        
+        .memory-popup {
+            padding: 1.5rem;
+            margin: 1rem;
+        }
+    }
+</style>
+
+</head>
+<body>
+<div class="custom-cursor"></div>
+
+<div class="game-container">
+    <!-- Background Layers -->
+    <div class="background-layer"></div>
+    <div class="star-field" id="starField"></div>
+    <div class="aurora"></div>
+    <div class="floating-particles" id="particles"></div>
+    
+    <!-- Progress Indicator -->
+    <div class="progress-indicator" id="progressIndicator">
+        <div class="progress-dot"></div>
+        <div class="progress-dot"></div>
+        <div class="progress-dot"></div>
+        <div class="progress-dot"></div>
+        <div class="progress-dot"></div>
+        <div class="progress-dot"></div>
+        <div class="progress-dot"></div>
+    </div>
+    
+    <!-- Intro Screen -->
+    <div class="screen active" id="introScreen">
+        <h1 class="intro-title">Constellation of Us</h1>
+        <p class="romantic-text">Mi Amor, tonight the stars have aligned just for you...</p>
+        <p class="romantic-text">✨ A love story written in the cosmos ✨</p>
+        <button class="cta-button" onclick="startJourney()">Begin Our Journey</button>
+    </div>
+    
+    <!-- Wish Screen -->
+    <div class="screen" id="wishScreen">
+        <h2 class="intro-title">Make a Wish, Mi Amor</h2>
+        <p class="romantic-text">Close your eyes and make a wish upon this shooting star...</p>
+        <p class="romantic-text">🌟 What does your heart desire most? 🌟</p>
+        <button class="cta-button" onclick="showConstellation()">I've Made My Wish ✨</button>
+    </div>
+    
+    <!-- Constellation Screen -->
+    <div class="screen" id="constellationScreen">
+        <h2 class="intro-title" style="font-size: clamp(1.5rem, 5vw, 2.5rem); margin-bottom: 1rem;">
+            Create Our Constellation of Love
+        </h2>
+        <p class="romantic-text" style="margin-bottom: 2rem;">
+            Touch each glowing position to place a star and unlock a precious memory we share...
+        </p>
+        <div class="constellation-canvas" id="constellationCanvas"></div>
+    </div>
+    
+    <!-- Finale Screen -->
+    <div class="screen" id="finaleScreen">
+        <div class="finale-fireworks" id="fireworks"></div>
+        <div class="love-message" id="finalMessage">
+            Our love story is written in the stars, mi amor ✨💕
+        </div>
+    </div>
+    
+    <!-- Memory Popup -->
+    <div class="memory-popup" id="memoryPopup">
+        <div class="memory-emoji" id="memoryEmoji"></div>
+        <h3 class="memory-title" id="memoryTitle"></h3>
+        <p class="memory-description" id="memoryDescription"></p>
+        <button class="close-popup" onclick="closeMemory()">Continue Our Journey 💕</button>
+    </div>
+    
+    <!-- Spotify Widget -->
+    <div class="spotify-widget">
+        <p style="text-align: center; margin-bottom: 0.5rem; font-size: 0.9rem;">🎵 Play Our Love Songs</p>
+        <a href="https://open.spotify.com/playlist/2R3GciDXqqgygQxAveD4j0?si=xaAU7KY9TYCb9TDsK6FYVA"
+            target="_blank"
+            style="color: #1db954; text-decoration: none; font-weight: 600;">
+            ▶️ Open Spotify Playlist
+        </a>
+    </div>
+    
+    <!-- Hidden Messages -->
+    <div class="hidden-message" style="animation-delay: 10s;">
+        Te amo más que las estrellas 💫
+    </div>
+    <div class="hidden-message" style="animation-delay: 25s; top: 60%; left: 2rem;">
+        Our love transcends time zones ⏰💕
+    </div>
+</div>
+
+<script>
+    // Game State
+    let currentStarIndex = 0;
+    let placedStars = [];
+    const totalStars = 7;
+    
+    // Memory Data
+    const memories = [
+        {
+            emoji: "🐨",
+            title: "Koala Cuddles",
+            description: "Remember when we found those adorable koala videos? You said you wanted to cuddle them, but I said I'd rather cuddle you instead. We spent hours watching them sleep so peacefully, just like how peaceful I feel in your arms, mi amor. 🥰"
+        },
+        {
+            emoji: "📚", 
+            title: "Arabic Class Distraction",
+            description: "That day you were trying so hard to focus on your Arabic lessons, but I kept being adorably distracting! 😘 I couldn't help it - seeing you concentrate so intensely made you even more beautiful. Though I should let you study... but where's the fun in that? 😉"
+        },
+        {
+            emoji: "🍝",
+            title: "Ravioli & Mojitos",
+            description: "Our perfect romantic dinner - homemade ravioli and mojitos, just us against the world. The way you smiled when you took that first sip... I knew I was falling deeper in love. Every meal with you feels like a celebration, mi amor! 🥂💕"
+        },
+        {
+            emoji: "🛁",
+            title: "Candlelit Bath Dreams",
+            description: "The way we talk about those romantic bubble baths surrounded by flickering candles... One day, mi amor, we'll turn this dream into reality. Until then, I'll keep imagining holding you close in warm, soapy bubbles. 🕯️✨"
+        },
+        {
+            emoji: "💃",
+            title: "Shakira Dancing",
+            description: "When you dance to Shakira, my heart skips every beat! Your hips don't lie, and neither does my love for you. Every move you make is pure magic - you're my personal dancing queen, more captivating than any superstar! 💫"
+        },
+        {
+            emoji: "⚽",
+            title: "Messi Dreams",
+            description: "Your passion for Messi and Argentina is so beautiful to watch! The way your eyes light up during matches, wearing those blue and white colors with such pride. You cheer with your whole heart - just like how I love you with mine! 🇦🇷"
+        },
+        {
+            emoji: "🏈",
+            title: "NFL Mahomes Magic",
+            description: "Even though you're learning about American football and Mahomes, you do it with such curiosity and excitement! I love how you embrace new things. Soon we'll be cheering together in person, mi amor! 🏆💪"
+        }
+    ];
+    
+    // Star positions for constellation (heart shape)
+    const starPositions = [
+        { x: '20%', y: '30%' },
+        { x: '35%', y: '20%' },
+        { x: '50%', y: '25%' },
+        { x: '65%', y: '20%' },
+        { x: '80%', y: '30%' },
+        { x: '35%', y: '60%' },
+        { x: '50%', y: '70%' }
+    ];
+    
+    // Initialize game
+    document.addEventListener('DOMContentLoaded', function() {
+        createBackgroundStars();
+        createShootingStars();
+        createFloatingParticles();
+        updateCustomCursor();
+        createHeartRain();
+    });
+    
+    // Custom cursor
+    function updateCustomCursor() {
+        const cursor = document.querySelector('.custom-cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+    }
+    
+    // Background effects
+    function createBackgroundStars() {
+        const starField = document.getElementById('starField');
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'bg-star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            star.style.animationDuration = (2 + Math.random() * 4) + 's';
+            starField.appendChild(star);
+        }
+    }
+    
+    function createShootingStars() {
+        setInterval(() => {
+            const shootingStar = document.createElement('div');
+            shootingStar.className = 'shooting-star';
+            shootingStar.style.top = Math.random() * 50 + '%';
+            shootingStar.style.left = '-100px';
+            shootingStar.style.background = `linear-gradient(45deg, transparent, ${getRandomStarColor()}, transparent)`;
+            document.querySelector('.star-field').appendChild(shootingStar);
+            
+            setTimeout(() => {
+                shootingStar.remove();
+            }, 8000);
+        }, 3000 + Math.random() * 5000);
+    }
+    
+    function createFloatingParticles() {
+        const particlesContainer = document.getElementById('particles');
+        setInterval(() => {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDuration = (8 + Math.random() * 4) + 's';
+            particle.style.animationDelay = Math.random() * 2 + 's';
+            particlesContainer.appendChild(particle);
+            
+            setTimeout(() => {
+                particle.remove();
+            }, 12000);
+        }, 1000);
+    }
+    
+    function createHeartRain() {
+        setInterval(() => {
+            const heart = document.createElement('div');
+            heart.className = 'heart-rain';
+            heart.innerHTML = ['💕', '💖', '💝', '💗', '💞'][Math.floor(Math.random() * 5)];
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDuration = (2 + Math.random() * 2) + 's';
+            document.body.appendChild(heart);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 4000);
+        }, 2000);
+    }
+    
+    function getRandomStarColor() {
+        const colors = ['#ffd700', '#ff6b9d', '#00d4ff', '#ff9a56', '#a78bfa'];
+        return colors[Math.floor(Math.random() * colors.length)];
+    }
+    
+    // Screen transitions
+    function switchScreen(fromId, toId) {
+        const fromScreen = document.getElementById(fromId);
+        const toScreen = document.getElementById(toId);
+        
+        fromScreen.style.opacity = '0';
+        fromScreen.style.transform = 'scale(0.8)';
+        
+        setTimeout(() => {
+            fromScreen.classList.remove('active');
+            toScreen.classList.add('active');
+            toScreen.style.opacity = '1';
+            toScreen.style.transform = 'scale(1)';
+        }, 750);
+    }
+    
+    // Game flow functions
+    function startJourney() {
+        createExplosionEffect(event.target);
+        setTimeout(() => {
+            switchScreen('introScreen', 'wishScreen');
+        }, 500);
+    }
+    
+    function showConstellation() {
+        createExplosionEffect(event.target);
+        setTimeout(() => {
+            switchScreen('wishScreen', 'constellationScreen');
+            initializeConstellation();
+        }, 500);
+    }
+    
+    function initializeConstellation() {
+        const canvas = document.getElementById('constellationCanvas');
+        canvas.innerHTML = '';
+        
+        starPositions.forEach((pos, index) => {
+            const starSpot = document.createElement('div');
+            starSpot.className = 'star-position';
+            starSpot.style.left = pos.x;
+            starSpot.style.top = pos.y;
+            starSpot.style.animationDelay = (index * 0.3) + 's';
+            starSpot.onclick = () => placeStar(index, starSpot);
+            
+            // Add guidance arrow for first star
+            if (index === 0) {
+                const arrow = document.createElement('div');
+                arrow.innerHTML = '👆';
+                arrow.style.position = 'absolute';
+                arrow.style.top = '-40px';
+                arrow.style.left = '50%';
+                arrow.style.transform = 'translateX(-50%)';
+                arrow.style.fontSize = '2rem';
+                arrow.style.animation = 'bounce 2s ease-in-out infinite';
+                starSpot.appendChild(arrow);
+            }
+            
+            canvas.appendChild(starSpot);
+        });
+    }
+    
+    function placeStar(index, element) {
+        if (placedStars.includes(index)) return;
+        
+        // Create explosion effect
+        createExplosionEffect(element);
+        
+        // Create and place star
+        const star = document.createElement('div');
+        star.className = 'placed-star';
+        star.innerHTML = '⭐';
+        star.style.left = element.style.left;
+        star.style.top = element.style.top;
+        star.style.color = getRandomStarColor();
+        
+        // Add star to canvas
+        document.getElementById('constellationCanvas').appendChild(star);
+        placedStars.push(index);
+        
+        // Update progress
+        updateProgress(index);
+        
+        // Remove the placement guide
+        element.style.display = 'none';
+        
+        // Show memory after star animation
+        setTimeout(() => {
+            showMemory(index);
+        }, 1000);
+        
+        // Draw constellation lines
+        if (placedStars.length > 1) {
+            drawConstellationLines();
+        }
+        
+        // Check if constellation is complete
+        if (placedStars.length === totalStars) {
+            setTimeout(() => {
+                startFinale();
+            }, 2000);
+        }
+    }
+    
+    function showMemory(index) {
+        const memory = memories[index];
+        const popup = document.getElementById('memoryPopup');
+        
+        document.getElementById('memoryEmoji').innerHTML = memory.emoji;
+        document.getElementById('memoryTitle').innerHTML = memory.title;
+        document.getElementById('memoryDescription').innerHTML = memory.description;
+        
+        popup.classList.add('show');
+        createExplosionEffect(popup);
+    }
+    
+    function closeMemory() {
+        const popup = document.getElementById('memoryPopup');
+        popup.classList.remove('show');
+        
+        // Show next star guidance if not complete
+        if (placedStars.length < totalStars) {
+            highlightNextStar();
+        }
+    }
+    
+    function highlightNextStar() {
+        const canvas = document.getElementById('constellationCanvas');
+        const remainingStars = canvas.querySelectorAll('.star-position:not([style*="display: none"])');
+        
+        if (remainingStars.length > 0) {
+            const nextStar = remainingStars[0];
+            nextStar.style.border = '3px solid #ffd700';
+            nextStar.style.boxShadow = '0 0 30px #ffd700';
+            nextStar.style.animation = 'positionPulse 1s ease-in-out infinite';
+            
+            // Add guidance arrow
+            const arrow = document.createElement('div');
+            arrow.innerHTML = '👆';
+            arrow.style.position = 'absolute';
+            arrow.style.top = '-40px';
+            arrow.style.left = '50%';
+            arrow.style.transform = 'translateX(-50%)';
+            arrow.style.fontSize = '2rem';
+            arrow.style.animation = 'bounce 2s ease-in-out infinite';
+            nextStar.appendChild(arrow);
+        }
+    }
+    
+    function updateProgress(completedIndex) {
+        const dots = document.querySelectorAll('.progress-dot');
+        dots[completedIndex].classList.add('completed');
+    }
+    
+    function drawConstellationLines() {
+        const canvas = document.getElementById('constellationCanvas');
+        const stars = canvas.querySelectorAll('.placed-star');
+        
+        // Connect stars in sequence to form heart shape
+        for (let i = 0; i < stars.length - 1; i++) {
+            const star1 = stars[i];
+            const star2 = stars[i + 1];
+            
+            const line = document.createElement('div');
+            line.className = 'constellation-line';
+            
+            const rect1 = star1.getBoundingClientRect();
+            const rect2 = star2.getBoundingClientRect();
+            const canvasRect = canvas.getBoundingClientRect();
+            
+            const x1 = rect1.left - canvasRect.left + rect1.width / 2;
+            const y1 = rect1.top - canvasRect.top + rect1.height / 2;
+            const x2 = rect2.left - canvasRect.left + rect2.width / 2;
+            const y2 = rect2.top - canvasRect.top + rect2.height / 2;
+            
+            const length = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
+            const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+            
+            line.style.left = x1 + 'px';
+            line.style.top = y1 + 'px';
+            line.style.transform = `rotate(${angle}deg)`;
+            line.style.setProperty('--line-length', length + 'px');
+            line.style.animationDelay = (i * 0.5) + 's';
+            
+            canvas.appendChild(line);
+        }
+    }
+    
+    function startFinale() {
+        switchScreen('constellationScreen', 'finaleScreen');
+        
+        setTimeout(() => {
+            createFireworksShow();
+            showFinalMessages();
+        }, 1000);
+    }
+    
+    function createFireworksShow() {
+        const fireworksContainer = document.getElementById('fireworks');
+        const colors = ['#ffd700', '#ff6b9d', '#00d4ff', '#ff9a56', '#a78bfa', '#50fa7b'];
+        
+        let fireworkCount = 0;
+        const fireworkInterval = setInterval(() => {
+            // Create multiple fireworks
+            for (let i = 0; i < 3; i++) {
+                setTimeout(() => {
+                    const firework = document.createElement('div');
+                    firework.className = 'firework';
+                    firework.style.left = (20 + Math.random() * 60) + '%';
+                    firework.style.top = (20 + Math.random() * 60) + '%';
+                    firework.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    firework.style.animationDelay = Math.random() * 0.5 + 's';
+                    
+                    fireworksContainer.appendChild(firework);
+                    
+                    // Create particles for each firework
+                    createFireworkParticles(firework);
+                    
+                    setTimeout(() => {
+                        firework.remove();
+                    }, 2000);
+                }, i * 200);
+            }
+            
+            fireworkCount++;
+            if (fireworkCount >= 8) {
+                clearInterval(fireworkInterval);
+            }
+        }, 800);
+    }
+    
+    function createFireworkParticles(firework) {
+        const rect = firework.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        
+        for (let i = 0; i < 12; i++) {
+            const particle = document.createElement('div');
+            particle.style.position = 'fixed';
+            particle.style.left = centerX + 'px';
+            particle.style.top = centerY + 'px';
+            particle.style.width = '4px';
+            particle.style.height = '4px';
+            particle.style.borderRadius = '50%';
+            particle.style.background = firework.style.background;
+            particle.style.pointerEvents = 'none';
+            particle.style.zIndex = '2001';
+            
+            const angle = (i / 12) * Math.PI * 2;
+            const velocity = 100 + Math.random() * 100;
+            const vx = Math.cos(angle) * velocity;
+            const vy = Math.sin(angle) * velocity;
+            
+            particle.style.animation = `particleMove 1.5s ease-out forwards`;
+            particle.style.setProperty('--vx', vx + 'px');
+            particle.style.setProperty('--vy', vy + 'px');
+            
+            document.body.appendChild(particle);
+            
+            setTimeout(() => {
+                particle.remove();
+            }, 1500);
+        }
+    }
+    
+    function showFinalMessages() {
+        const messages = [
+            "Our love story is written in the stars, mi amor ✨💕",
+            "Each star represents a precious memory we share 🌟",
+            "From Buenos Aires to Sydney, our hearts beat as one 💝",
+            "Te amo más que todas las estrellas en el cielo 🌌",
+            "Now close your eyes and make a wish... 💫",
+            "I'm probably thinking the same thing 😘💕"
+        ];
+        
+        const finalMessage = document.getElementById('finalMessage');
+        let messageIndex = 0;
+        
+        const messageInterval = setInterval(() => {
+            finalMessage.style.opacity = '0';
+            
+            setTimeout(() => {
+                finalMessage.innerHTML = messages[messageIndex];
+                finalMessage.style.opacity = '1';
+                messageIndex++;
+                
+                if (messageIndex >= messages.length) {
+                    clearInterval(messageInterval);
+                    
+                    // Add final interactive elements
+                    setTimeout(() => {
+                        addFinalInteractiveElements();
+                    }, 3000);
+                }
+            }, 500);
+        }, 4000);
+    }
+    
+    function addFinalInteractiveElements() {
+        // Create romantic certificate
+        const certificate = document.createElement('div');
+        certificate.innerHTML = `
+            <div style="background: linear-gradient(135deg, rgba(26, 26, 74, 0.95), rgba(42, 26, 74, 0.95));
+                        backdrop-filter: blur(20px); border: 2px solid #ffd700; border-radius: 20px;
+                        padding: 2rem; margin: 2rem; text-align: center; max-width: 500px;">
+                <h2 style="font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: #ffd700; margin-bottom: 1rem;">
+                    Certificate of Eternal Love ✨
+                </h2>
+                <p style="font-size: 1.1rem; line-height: 1.6; margin-bottom: 1rem;">
+                    This certifies that <strong style="color: #ff6b9d;">Mi Amor</strong> and I share a love
+                     that transcends time, space, and even the vast distance between Buenos Aires and Sydney.
+                </p>
+                <p style="font-size: 1rem; color: #ffd700;">
+                    Sealed with stardust and infinite kisses 💋<br>
+                    Date: ${new Date().toLocaleDateString()}<br>
+                    Location: Written in the stars 🌟
+                </p>
+                <button onclick="restartJourney()" style="background: linear-gradient(45deg, #ff6b9d, #ffd700);
+                        border: none; padding: 1rem 2rem; border-radius: 25px; color: white;
+                        font-weight: 600; cursor: pointer; margin-top: 1rem; transition: all 0.3s ease;">
+                    Experience Our Love Story Again 💕
+                </button>
+            </div>
+        `;
+        
+        certificate.style.position = 'fixed';
+        certificate.style.top = '50%';
+        certificate.style.left = '50%';
+        certificate.style.transform = 'translate(-50%, -50%) scale(0)';
+        certificate.style.zIndex = '4000';
+        certificate.style.transition = 'all 1s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+        
+        document.body.appendChild(certificate);
+        
+        setTimeout(() => {
+            certificate.style.transform = 'translate(-50%, -50%) scale(1)';
+        }, 500);
+    }
+    
+    function restartJourney() {
+        // Reset game state
+        currentStarIndex = 0;
+        placedStars = [];
+        
+        // Clear progress indicators
+        document.querySelectorAll('.progress-dot').forEach(dot => {
+            dot.classList.remove('completed');
+        });
+        
+        // Remove certificate
+        const certificates = document.querySelectorAll('div[style*="Certificate of Eternal Love"]');
+        certificates.forEach(cert => cert.remove());
+        
+        // Switch back to intro
+        switchScreen('finaleScreen', 'introScreen');
+    }
+    
+    function createExplosionEffect(element) {
+        const rect = element.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        
+        for (let i = 0; i < 8; i++) {
+            const particle = document.createElement('div');
+            particle.style.position = 'fixed';
+            particle.style.left = centerX + 'px';
+            particle.style.top = centerY + 'px';
+            particle.style.width = '6px';
+            particle.style.height = '6px';
+            particle.style.borderRadius = '50%';
+            particle.style.background = getRandomStarColor();
+            particle.style.pointerEvents = 'none';
+            particle.style.zIndex = '5000';
+            
+            const angle = (i / 8) * Math.PI * 2;
+            const distance = 50 + Math.random() * 50;
+            const endX = centerX + Math.cos(angle) * distance;
+            const endY = centerY + Math.sin(angle) * distance;
+            
+            particle.animate([
+                { transform: 'translate(-50%, -50%) scale(0)', opacity: 1 },
+                { transform: `translate(${endX - centerX}px, ${endY - centerY}px) scale(1)`, opacity: 0.8 },
+                { transform: `translate(${(endX - centerX) * 1.5}px, ${(endY - centerY) * 1.5}px) scale(0)`, opacity: 0 }
+            ], {
+                duration: 800,
+                easing: 'ease-out'
+            });
+            
+            document.body.appendChild(particle);
+            
+            setTimeout(() => {
+                particle.remove();
+            }, 800);
+        }
+    }
+    
+    // Add CSS for particle movement animation
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0) translateX(-50%); }
+            50% { transform: translateY(-10px) translateX(-50%); }
+        }
+        
+        @keyframes particleMove {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            100% { 
+                transform: translate(calc(-50% + var(--vx)), calc(-50% + var(--vy))) scale(0);
+                opacity: 0;
+             }
+        }
+    `;
+    document.head.appendChild(style);
+    
+    // Screen shake effect for dramatic moments
+    function screenShake() {
+        document.body.style.animation = 'shake 0.5s ease-in-out';
+        setTimeout(() => {
+            document.body.style.animation = '';
+        }, 500);
+    }
+    
+    // Add screen shake animation
+    const shakeStyle = document.createElement('style');
+    shakeStyle.textContent = `
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+    `;
+    document.head.appendChild(shakeStyle);
+</script>
+
+</body>
+</html>
